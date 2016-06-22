@@ -1,3 +1,4 @@
+
 package com.cooksys.ftd.test.kata;
 
 import static org.junit.Assert.*;
@@ -25,14 +26,14 @@ import com.cooksys.ftd.kata.model.Species;
 
 public class LepidopterologistTest {
 	
-	ILepidopterologist haloti;
+	ILepidopterologist lepMan;
 	GrowthModel[] gList;
 	Species[] speciesList;
 	Sample[] sampleList;
 	
 	@Before
 	public void before() {
-		haloti = new Lepidopterologist();
+		lepMan = new Lepidopterologist();
 		
 		gList = new GrowthModel[5];
 		gList[0] = new GrowthModel(1.2, 0.5);
@@ -42,11 +43,11 @@ public class LepidopterologistTest {
 		gList[4] = new GrowthModel(1.0, 1.0);
 		
 		speciesList = new Species[5];
-		speciesList[0] = new Species("spotted catterfly", gList[0], 0.001);	// 1
-		speciesList[1] = new Species("hexagonal catterfly", gList[1], 0.001);	// 2
-		speciesList[2] = new Species("erudite catterfly", gList[2], 0.001);	// 5
-		speciesList[3] = new Species("rhombal catterfly", gList[3], 0.001);	// 4
-		speciesList[4] = new Species("stinging catterfly", gList[4], 0.001);	// 3
+		speciesList[0] = new Species("A", gList[0], 0.001);	// 1
+		speciesList[1] = new Species("B", gList[1], 0.001);	// 2
+		speciesList[2] = new Species("E", gList[2], 0.001);	// 5
+		speciesList[3] = new Species("D", gList[3], 0.001);	// 4
+		speciesList[4] = new Species("C", gList[4], 0.001);	// 3
 		
 		sampleList = new Sample[8];
 		Butterpillar b0 = new Butterpillar(1.4, 12.0);
@@ -84,7 +85,7 @@ public class LepidopterologistTest {
 	
 	@After
 	public void after() {
-		haloti = null;
+		lepMan = null;
 		
 		gList = null;
 		speciesList = null;
@@ -93,55 +94,55 @@ public class LepidopterologistTest {
 	
 	@Test
 	public void testRegisterSpecies() {
-		assertTrue(haloti.registerSpecies(speciesList[0]));
-		assertFalse(haloti.registerSpecies(speciesList[0]));
-		assertTrue(haloti.registerSpecies(speciesList[1]));
-		assertTrue(haloti.registerSpecies(speciesList[2]));
-		assertTrue(haloti.registerSpecies(speciesList[3]));
-		assertTrue(haloti.registerSpecies(speciesList[4]));
-		assertFalse(haloti.registerSpecies(speciesList[4]));
+		assertTrue(lepMan.registerSpecies(speciesList[0]));
+		assertFalse(lepMan.registerSpecies(speciesList[0]));
+		assertTrue(lepMan.registerSpecies(speciesList[1]));
+		assertTrue(lepMan.registerSpecies(speciesList[2]));
+		assertTrue(lepMan.registerSpecies(speciesList[3]));
+		assertTrue(lepMan.registerSpecies(speciesList[4]));
+		assertFalse(lepMan.registerSpecies(speciesList[4]));
 	}
 
 	@Test
 	public void testIsSpeciesRegistered() {
-		haloti.registerSpecies(speciesList[0]);
-		assertTrue(haloti.isSpeciesRegistered(speciesList[0]));
-		assertFalse(haloti.isSpeciesRegistered(speciesList[1]));
-		haloti.registerSpecies(speciesList[1]);
-		assertTrue(haloti.isSpeciesRegistered(speciesList[1]));
+		lepMan.registerSpecies(speciesList[0]);
+		assertTrue(lepMan.isSpeciesRegistered(speciesList[0]));
+		assertFalse(lepMan.isSpeciesRegistered(speciesList[1]));
+		lepMan.registerSpecies(speciesList[1]);
+		assertTrue(lepMan.isSpeciesRegistered(speciesList[1]));
 	}
 
 	@Test
 	public void testFindSpeciesForSample() {
-		haloti.registerSpecies(speciesList[0]);
-		haloti.registerSpecies(speciesList[1]);
-		haloti.registerSpecies(speciesList[2]);
-		haloti.registerSpecies(speciesList[3]);
-		haloti.recordSample(sampleList[2]);
-		Optional<Species> compare = haloti.findSpeciesForSample(sampleList[2]);
+		lepMan.registerSpecies(speciesList[0]);
+		lepMan.registerSpecies(speciesList[1]);
+		lepMan.registerSpecies(speciesList[2]);
+		lepMan.registerSpecies(speciesList[3]);
+		lepMan.recordSample(sampleList[2]);
+		Optional<Species> compare = lepMan.findSpeciesForSample(sampleList[2]);
 		assertTrue(compare.isPresent());
 		
-		Optional<Species> compare2 = haloti.findSpeciesForSample(sampleList[4]);
+		Optional<Species> compare2 = lepMan.findSpeciesForSample(sampleList[4]);
 		assertFalse(compare2.isPresent());
 	}
 
 	@Test
 	public void testRecordSample() {
-		haloti.registerSpecies(speciesList[0]);
-		haloti.registerSpecies(speciesList[1]);
-		assertTrue(haloti.recordSample(sampleList[0]));
-		assertFalse(haloti.recordSample(sampleList[2]));
-		haloti.registerSpecies(speciesList[2]);
-		assertTrue(haloti.recordSample(sampleList[2]));
+		lepMan.registerSpecies(speciesList[0]);
+		lepMan.registerSpecies(speciesList[1]);
+		assertTrue(lepMan.recordSample(sampleList[0]));
+		assertFalse(lepMan.recordSample(sampleList[2]));
+		lepMan.registerSpecies(speciesList[2]);
+		assertTrue(lepMan.recordSample(sampleList[2]));
 	}
 
 	@Test
 	public void testGetSamplesForSpecies() {
-		haloti.registerSpecies(speciesList[1]);
-		haloti.recordSample(sampleList[1]);
-		haloti.recordSample(sampleList[5]);
+		lepMan.registerSpecies(speciesList[1]);
+		lepMan.recordSample(sampleList[1]);
+		lepMan.recordSample(sampleList[5]);
 		
-		List<Sample> compareList = haloti.getSamplesForSpecies(speciesList[1]);
+		List<Sample> compareList = lepMan.getSamplesForSpecies(speciesList[1]);
 		assertTrue(compareList.get(0).equals(sampleList[1]));
 		assertTrue(compareList.get(1).equals(sampleList[5]));
 	}
@@ -151,13 +152,13 @@ public class LepidopterologistTest {
 		List<Species> sortedList = new ArrayList<>(Arrays.asList(speciesList));
 		Collections.sort(sortedList);
 		
-		haloti.registerSpecies(speciesList[0]);
-		haloti.registerSpecies(speciesList[1]);
-		haloti.registerSpecies(speciesList[2]);
-		haloti.registerSpecies(speciesList[3]);
-		haloti.registerSpecies(speciesList[4]);
+		lepMan.registerSpecies(speciesList[0]);
+		lepMan.registerSpecies(speciesList[1]);
+		lepMan.registerSpecies(speciesList[2]);
+		lepMan.registerSpecies(speciesList[3]);
+		lepMan.registerSpecies(speciesList[4]);
 		
-		List<Species> compare = haloti.getRegisteredSpecies();
+		List<Species> compare = lepMan.getRegisteredSpecies();
 		
 		for (int i = 0; i < 5; i++) {
 			assertTrue(sortedList.get(i).equals(compare.get(i)));
@@ -198,22 +199,22 @@ public class LepidopterologistTest {
 		sortedMap.put(speciesList[3], speciesDList);
 		sortedMap.put(speciesList[4], speciesEList);
 		
-		haloti.registerSpecies(speciesList[0]);
-		haloti.registerSpecies(speciesList[1]);
-		haloti.registerSpecies(speciesList[2]);
-		haloti.registerSpecies(speciesList[3]);
-		haloti.registerSpecies(speciesList[4]);
+		lepMan.registerSpecies(speciesList[0]);
+		lepMan.registerSpecies(speciesList[1]);
+		lepMan.registerSpecies(speciesList[2]);
+		lepMan.registerSpecies(speciesList[3]);
+		lepMan.registerSpecies(speciesList[4]);
 		
-		haloti.recordSample(sampleList[0]);
-		haloti.recordSample(sampleList[1]);
-		haloti.recordSample(sampleList[2]);
-		haloti.recordSample(sampleList[3]);
-		haloti.recordSample(sampleList[4]);
-		haloti.recordSample(sampleList[5]);
-		haloti.recordSample(sampleList[6]);
-		haloti.recordSample(sampleList[7]);
+		lepMan.recordSample(sampleList[0]);
+		lepMan.recordSample(sampleList[1]);
+		lepMan.recordSample(sampleList[2]);
+		lepMan.recordSample(sampleList[3]);
+		lepMan.recordSample(sampleList[4]);
+		lepMan.recordSample(sampleList[5]);
+		lepMan.recordSample(sampleList[6]);
+		lepMan.recordSample(sampleList[7]);
 		
-		Map<Species, List<Sample>> compareMap = haloti.getTaxonomy();
+		Map<Species, List<Sample>> compareMap = lepMan.getTaxonomy();
 		
 		Set<Species> sortedKeySet = sortedMap.keySet();
 		Set<Species> compareKeySet = compareMap.keySet();
